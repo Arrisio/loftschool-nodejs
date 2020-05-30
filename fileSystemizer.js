@@ -8,7 +8,8 @@ const {program} = require('commander');
 
 function processDir(dir, destPath, delSourceFlag) {
     fs.readdir(dir, {withFileTypes: true}, (err, fileSysmObjects) => {
-        let dirObjNumber = fileSysmObjects.length; //счетчик объектов в директории. Нужен чтоб понять, когда можно директорию удалять
+        //счетчик объектов в директории. Нужен чтоб понять, когда можно директорию удалять
+        let dirObjNumber = fileSysmObjects.length;
 
         fileSysmObjects.forEach(obj => {
             const objPath = path.join(dir, obj.name)
@@ -16,7 +17,6 @@ function processDir(dir, destPath, delSourceFlag) {
                 processDir(objPath, destPath)
             } else {// if file
                 const toDir = obj.name[0];
-                console.log(destPath)
                 const toFilePath = path.join(destPath, toDir, obj.name);
                 fs.mkdir(path.join(destPath, toDir), {recursive: true}, err => {
                     if (err) throw err;
@@ -24,11 +24,11 @@ function processDir(dir, destPath, delSourceFlag) {
                         fs.rename(objPath, toFilePath, (err) => {
                             if (err) throw err;
                             if (dirObjNumber -= 1 <= 0) {
-                                console.log(dirObjNumber)
-                                // приведенный ниже вариант не работает на винде
+                                // приведенный ниже вариант не работает на винде, т.е ошибка
                                 //Error: EPERM: operation not permitted, unlink
                                 // fs.unlink(dir, err => {console.log(`directory ${dir} deleted, \n ${err}`)})
-                                //поэтому использую стороннюю библиотеку, в которо это проблема решена
+
+                                //поэтому использую стороннюю библиотеку, в которой это проблема решена
                                 rimraf(dir, err => {
                                     err && console.log(err)
                                 })
