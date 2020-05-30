@@ -14,33 +14,36 @@ function processDir(dir, destPath, delSourceFlag) {
         fileSysmObjects.forEach(obj => {
             const objPath = path.join(dir, obj.name)
             if (obj.isDirectory()) {
-                processDir(objPath, destPath)
-            } else {// if file
-                const toDir = obj.name[0];
-                const toFilePath = path.join(destPath, toDir, obj.name);
-                fs.mkdir(path.join(destPath, toDir), {recursive: true}, err => {
-                    if (err) throw err;
-                    if (delSourceFlag) {
-                        fs.rename(objPath, toFilePath, (err) => {
-                            if (err) throw err;
-                            if (dirObjNumber -= 1 <= 0) {
-                                // приведенный ниже вариант не работает на винде, т.е ошибка
-                                //Error: EPERM: operation not permitted, unlink
-                                // fs.unlink(dir, err => {console.log(`directory ${dir} deleted, \n ${err}`)})
-
-                                //поэтому использую стороннюю библиотеку, в которой это проблема решена
-                                rimraf(dir, err => {
-                                    err && console.log(err)
-                                })
-                            }
-                        })
-                    } else {
-                        fs.copyFile(objPath, toFilePath, err => {
-                            if (err) throw err
-                        })
-                    }
-                })
+                processDir(objPath, destPath);
+                return
             }
+
+            // if file
+            const toDir = obj.name[0];
+            const toFilePath = path.join(destPath, toDir, obj.name);
+            fs.mkdir(path.join(destPath, toDir), {recursive: true}, err => {
+                if (err) throw err;
+                if (delSourceFlag) {
+                    fs.rename(objPath, toFilePath, (err) => {
+                        if (err) throw err;
+                        if (dirObjNumber -= 1 <= 0) {
+                            // приведенный ниже вариант не работает на винде, т.е ошибка
+                            //Error: EPERM: operation not permitted, unlink
+                            // fs.unlink(dir, err => {console.log(`directory ${dir} deleted, \n ${err}`)})
+
+                            //поэтому использую стороннюю библиотеку, в которой это проблема решена
+                            rimraf(dir, err => {
+                                err && console.log(err)
+                            })
+                        }
+                    })
+                } else {
+                    fs.copyFile(objPath, toFilePath, err => {
+                        if (err) throw err
+                    })
+                }
+            })
+
         })
     })
 }
