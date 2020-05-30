@@ -48,6 +48,15 @@ function processDir(dir, destPath, delSourceFlag) {
     })
 }
 
+const verifyDirectoryExists = dir => {
+    fs.access(dir, fs.constants.F_OK, (err) => {
+        if (err) {
+            console.error(`${dir}  does not exist `);
+            throw err;
+        }
+    });
+}
+
 if (require.main === module) {
     program
         .option('-s, --source <type>', 'source path')
@@ -57,6 +66,7 @@ if (require.main === module) {
 
     assert(program.source, "source path is not set");
     assert(program.destination, "destination path is not set");
+    verifyDirectoryExists(program.source);
 
     const delSourceFlag = !!program.delsource;
     processDir(program.source, program.destination, delSourceFlag)
