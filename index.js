@@ -10,14 +10,15 @@ const server = http.createServer((req, res) => {
         const client = chance.name()
         console.log(`Client: ${client} connected!`);
 
-        const intervalID = setInterval(() => {
+        const echoInterval = setInterval(() => {
             console.log(`Client: ${client}, time: ${new Date().toUTCString()}`);
         }, CONSOLE_MSG_INTERVAL);
 
         setTimeout(() => {
-            clearInterval(intervalID);
-            console.log(`Client: ${client}, time: ${new Date().toUTCString()} end connection`);
-            res.end(`Current time: ${time}`);
+            clearInterval(echoInterval);
+            const responseTime = new Date().toUTCString()
+            console.log(`Client: ${client}, time: ${responseTime} end connection`);
+            res.end(`Current time: ${responseTime}`);
         }, RESPONSE_DELAY);
     }
 });
