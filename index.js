@@ -16,8 +16,7 @@ const server = http.createServer((req, res) => {
 
         setTimeout(() => {
             clearInterval(intervalID);
-            const time = new Date().toUTCString();
-            console.log(`Client: ${client}, time: ${time} end connection`);
+            console.log(`Client: ${client}, time: ${new Date().toUTCString()} end connection`);
             res.end(`Current time: ${time}`);
         }, RESPONSE_DELAY);
     }
