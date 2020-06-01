@@ -1,6 +1,6 @@
 # loftschool-nodejs
 Репозитоий с ДЗ по курсу Nodejs
-ДЗ1
+ДЗ-2-2 (продолжение ДЗ-1)
 https://tasks.loftschool.com/node/one.html <br/>
 Задание:
 
@@ -24,3 +24,13 @@ https://tasks.loftschool.com/node/one.html <br/>
 Сложный:
 
 Сделать нативными методами Node.js
+
+
+### Задание 2
+
+Перепишите первую домашнюю работу с использованием promises или async\await.
+
+Критерии оценивания:
+
+    При реализации использовались promises или async\await
+    Функция должна возвращать promise
