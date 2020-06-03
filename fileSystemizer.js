@@ -33,10 +33,10 @@ const systematizeFiles = async (dir, destPath, delSourceFlag) => {
     await access(dir);
 
     const entities = await readdir(dir, {withFileTypes: true});
-    Promise.all(entities.map(async entity => {
+    await Promise.all(entities.map(async entity => {
         processEntity(entity, dir, destPath, delSourceFlag)
     }))
-    delSourceFlag && rimraf_(dir);
+    if (delSourceFlag) rimraf_(dir);
 }
 
 
